@@ -1,0 +1,16 @@
+services:
+  # Next.js Web Application on Render
+  - type: web
+    name: signbridge-ai
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_APP_URL
+        fromService:
+          type: web
+          name: signbridge-ai
+          property: host
