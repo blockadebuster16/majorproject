@@ -85,6 +85,22 @@ Access the application at [http://localhost:3000](http://localhost:3000) and ver
 
 ---
 
+## 🚀 Cloud Deployment (Vercel & Render)
+
+SignBridge AI is configured for dynamic multi-host deployment:
+
+* **Frontend (Vercel)**:
+  * Deploy from GitHub repository with Next.js preset.
+  * Set `NEXT_PUBLIC_APP_URL` to your Vercel URL (auto-detected from `VERCEL_URL` if omitted).
+  * Set `NEXT_PUBLIC_BACKEND_URL` to your hosted Render backend (e.g. `https://your-backend.onrender.com`).
+* **Backend / ML Inference (Render)**:
+  * Deploy as a Web Service on [Render](https://render.com).
+  * Port binds dynamically via the platform's `$PORT` environment variable.
+  * Set `SIGN_MODEL_ENDPOINT` to your inference cluster URL or backend service URL.
+  * In local dev, backend points to `http://localhost:5000` when configured.
+
+---
+
 ## 📚 Complete Project Documentation
 
 | Document | Purpose |

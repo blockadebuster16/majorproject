@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Hand, Bot, CheckCircle2, RefreshCw, AlertCircle, Sparkles, ExternalLink, Code2 } from 'lucide-react';
 import { AvatarJob, SupportedSignLanguage } from '@/lib/types';
+import { apiUrl } from '@/lib/utils/env';
 
 interface AvatarPreviewModalProps {
   isOpen: boolean;
@@ -33,7 +34,7 @@ export default function AvatarPreviewModal({
     setIsLoading(true);
     setError(null);
 
-    fetch('/api/v1/avatar/jobs', {
+    fetch(apiUrl('/api/v1/avatar/jobs'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -50,7 +51,7 @@ export default function AvatarPreviewModal({
           setJob(data.data);
           // Poll status briefly to show state transition
           const pollInterval = setInterval(() => {
-            fetch(`/api/v1/avatar/jobs/${data.data.id}`)
+            fetch(apiUrl(`/api/v1/avatar/jobs/${data.data.id}`))
               .then((r) => r.json())
               .then((pollData) => {
                 if (pollData.success && isMounted) {

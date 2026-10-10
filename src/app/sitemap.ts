@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next';
+import { getAppUrl } from '@/lib/utils/env';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://signbridge.ai';
+  const baseUrl = getAppUrl();
   const now = new Date();
 
   return [

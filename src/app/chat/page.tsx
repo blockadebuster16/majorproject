@@ -17,6 +17,7 @@ import {
   UserProfile,
 } from '@/lib/types';
 import { DEFAULT_USER_PROFILE, INITIAL_CONVERSATIONS, INITIAL_MESSAGES } from '@/lib/services/conversation-store';
+import { apiUrl } from '@/lib/utils/env';
 
 export default function ChatPage() {
   const router = useRouter();
@@ -58,7 +59,7 @@ export default function ChatPage() {
     }
 
     // Fetch conversations from server DB API
-    fetch('/api/v1/conversations')
+    fetch(apiUrl('/api/v1/conversations'))
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data && data.data.length > 0) {
@@ -78,7 +79,7 @@ export default function ChatPage() {
       return;
     }
 
-    fetch(`/api/v1/conversations/${activeConversationId}`)
+    fetch(apiUrl(`/api/v1/conversations/${activeConversationId}`))
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data?.messages) {
@@ -99,7 +100,7 @@ export default function ChatPage() {
   // Handler: Create New Conversation
   const handleNewConversation = async () => {
     try {
-      const res = await fetch('/api/v1/conversations', {
+      const res = await fetch(apiUrl('/api/v1/conversations'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: 'New Conversation' }),
@@ -140,7 +141,7 @@ export default function ChatPage() {
       prev.map((c) => (c.id === id ? { ...c, title: newTitle } : c))
     );
     try {
-      await fetch(`/api/v1/conversations/${id}`, {
+      await fetch(apiUrl(`/api/v1/conversations/${id}`), {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: newTitle }),
@@ -162,7 +163,7 @@ export default function ChatPage() {
       }
     }
     try {
-      await fetch(`/api/v1/conversations/${id}`, { method: 'DELETE' });
+      await fetch(apiUrl(`/api/v1/conversations/${id}`), { method: 'DELETE' });
     } catch {
       // Ignore
     }
@@ -203,7 +204,7 @@ export default function ChatPage() {
     setMessages((prev) => [...prev, optimisticUserMessage]);
 
     try {
-      const res = await fetch(`/api/v1/conversations/${currentConvId}/messages`, {
+      const res = await fetch(apiUrl(`/api/v1/conversations/${currentConvId}/messages`), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

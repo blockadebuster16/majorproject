@@ -10,7 +10,10 @@ services:
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgresql://postgres:postgres_secure_pass@db:5432/signbridge
-      - NEXT_PUBLIC_APP_URL=http://localhost:3000
+      - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      - NEXT_PUBLIC_BACKEND_URL=${NEXT_PUBLIC_BACKEND_URL:-}
+      - BACKEND_URL=${BACKEND_URL:-}
+      - SIGN_MODEL_ENDPOINT=${SIGN_MODEL_ENDPOINT:-}
     depends_on:
       db:
         condition: service_healthy

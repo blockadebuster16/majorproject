@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next';
+import { getAppUrl } from '@/lib/utils/env';
 
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = getAppUrl();
   return {
     rules: [
       {
@@ -9,6 +11,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/chat', '/api/', '/login'],
       },
     ],
-    sitemap: 'https://signbridge.ai/sitemap.xml',
+    sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

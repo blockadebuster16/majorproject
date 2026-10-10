@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { getAppUrl } from '@/lib/utils/env';
 import './globals.css';
 
 const geistSans = Geist({
@@ -19,6 +20,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getAppUrl()),
   title: 'SignBridge AI — AI-Powered Sign Language Communication Platform',
   description:
     'Real-time sign language recognition, audio transcription, and assistive conversational AI bridging Deaf and hearing communicators worldwide.',

@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { RecognitionJobResult, SupportedSignLanguage } from '@/lib/types';
 import { formatDuration, formatFileSize } from '@/lib/utils/cn';
+import { apiUrl } from '@/lib/utils/env';
 
 interface VideoRecorderModalProps {
   isOpen: boolean;
@@ -194,7 +195,7 @@ export default function VideoRecorderModal({
     try {
       // 1. Post to recognition jobs endpoint
       setProcessingStatusText('Tracking hand joints & non-manual facial cues at 60fps...');
-      const res = await fetch('/api/v1/recognition/jobs', {
+      const res = await fetch(apiUrl('/api/v1/recognition/jobs'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

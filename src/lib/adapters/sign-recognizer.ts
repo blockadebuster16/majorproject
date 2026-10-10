@@ -167,7 +167,10 @@ export class HttpSignLanguageRecognizer implements ISignLanguageRecognizer {
  * Factory resolver for the active sign recognition engine.
  */
 export function getSignLanguageRecognizer(): ISignLanguageRecognizer {
-  const customEndpoint = process.env.SIGN_MODEL_ENDPOINT;
+  const customEndpoint =
+    process.env.SIGN_MODEL_ENDPOINT ||
+    process.env.BACKEND_URL ||
+    process.env.NEXT_PUBLIC_BACKEND_URL;
   if (customEndpoint && customEndpoint.startsWith('http')) {
     return new HttpSignLanguageRecognizer(customEndpoint, process.env.SIGN_MODEL_API_KEY);
   }

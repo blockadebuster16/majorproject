@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { X, Mic, Square, Play, Pause, Trash2, ArrowRight, RefreshCw, AlertCircle, Volume2 } from 'lucide-react';
 import { AudioTranscriptionResult } from '@/lib/types';
 import { formatDuration } from '@/lib/utils/cn';
+import { apiUrl } from '@/lib/utils/env';
 
 interface AudioRecorderModalProps {
   isOpen: boolean;
@@ -118,7 +119,7 @@ export default function AudioRecorderModal({
     setErrorMessage(null);
 
     try {
-      const res = await fetch('/api/v1/audio/transcriptions', {
+      const res = await fetch(apiUrl('/api/v1/audio/transcriptions'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -129,3 +129,29 @@ test('Server Database - Isolation & Message Ordering', async () => {
   const deletedConv = await serverDb.getConversation(conv.id, testUserId);
   assert.equal(deletedConv, null);
 });
+
+// Test Dynamic Host & Environment URL Resolution (Render & Vercel)
+test('Dynamic Environment & Host Resolver - Render & Vercel Support', async () => {
+  const { getAppUrl, getBackendUrl, apiUrl, getModelEndpoint } = await import('../src/lib/utils/env.ts');
+
+  // Verify default frontend URL
+  const defaultFrontend = getAppUrl();
+  assert.ok(defaultFrontend.startsWith('http://') || defaultFrontend.startsWith('https://'));
+
+  // Test dynamic apiUrl resolution without backend URL override
+  const localApi = apiUrl('/api/v1/conversations');
+  assert.ok(localApi.includes('/api/v1/conversations'));
+
+  // Test with simulated custom backend URL override (e.g. Render backend on port 5000 or hosted domain)
+  process.env.NEXT_PUBLIC_BACKEND_URL = 'https://signbridge-backend.onrender.com';
+  assert.equal(getBackendUrl(), 'https://signbridge-backend.onrender.com');
+  assert.equal(apiUrl('/api/v1/health'), 'https://signbridge-backend.onrender.com/api/v1/health');
+
+  // Test model endpoint resolution
+  process.env.SIGN_MODEL_ENDPOINT = 'http://localhost:5000';
+  assert.equal(getModelEndpoint(), 'http://localhost:5000');
+
+  // Clean up temporary test env vars
+  delete process.env.NEXT_PUBLIC_BACKEND_URL;
+  delete process.env.SIGN_MODEL_ENDPOINT;
+});
